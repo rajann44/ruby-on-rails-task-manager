@@ -1,0 +1,28 @@
+<h1>My Tasks</h1>
+<%= link_to 'New Task', new_task_path %>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Due Date</th>
+    <th>Priority</th>
+    <th>Completed</th>
+    <th>Categories</th>
+    <th>Actions</th>
+  </tr>
+  <% @tasks.each do |task| %>
+    <tr>
+      <td><%= link_to task.title, task_path(task) %></td>
+      <td><%= task.due_date %></td>
+      <td><%= task.priority %></td>
+      <td><%= task.completed ? 'Yes' : 'No' %></td>
+      <td><%= task.categories.map(&:name).join(', ') %></td>
+      <td>
+        <%= link_to 'Edit', edit_task_path(task) %> |
+        <%= link_to 'Delete', task_path(task), :method => :delete, :data => { :confirm => 'Are you sure?' } %> |
+        <% unless task.completed %>
+          <%= link_to 'Mark Complete', task_path(task, :task => { :completed => true }), :method => :put %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table> 
